@@ -1,4 +1,4 @@
 package com.example.dto;
 
-public class CarDTO {
+public record CarDTO(Long id, String brand, String model, Integer year) {
 }
