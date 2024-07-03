@@ -17,6 +17,6 @@ public interface CarMapper {
     CarDTO fromCarEntityToCarDTO(CarEntity carEntity);
 
     @Mapping(target = "yearOfManufacture", source = "year")
-    @Mapping(target = "brand.nam", ignore = true)
+    @Mapping(target = "brand", ignore = true)
     CarEntity fromCarDTOToCarEntity(CarDTO carDTO);
 }
