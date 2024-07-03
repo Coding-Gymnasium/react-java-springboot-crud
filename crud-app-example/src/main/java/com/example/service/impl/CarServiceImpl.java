@@ -1,7 +1,9 @@
 package com.example.service.impl;
 
 import com.example.dto.CarDTO;
+import com.example.entity.BrandEntity;
 import com.example.entity.CarEntity;
+import com.example.mapper.CarMapper;
 import com.example.repository.BrandEntityRepository;
 import com.example.repository.CarEntityRepository;
 import com.example.service.CarService;
@@ -16,8 +18,16 @@ public class CarServiceImpl implements CarService {
 
     private final CarEntityRepository carEntityRepository;
     private final BrandEntityRepository brandEntityRepository;
+    private final CarMapper carMapper;
+
     @Override
     public void save(CarDTO carDTO) {
+        CarEntity carEntity = carMapper.fromCarDTOToCarEntity(carDTO);
+        BrandEntity brandEntity =
+                brandEntityRepository.findByName(carDTO.brand()).orElse(new BrandEntity(carDTO.brand()));
+        carEntity.setBrand(brandEntity);
+
+        carEntityRepository.save(carEntity);
     }
 
     @Override
