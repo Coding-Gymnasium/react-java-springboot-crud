@@ -3,6 +3,7 @@ package com.example.service.impl;
 import com.example.dto.CarDTO;
 import com.example.entity.BrandEntity;
 import com.example.entity.CarEntity;
+import com.example.exception.NotFoundException;
 import com.example.mapper.CarMapper;
 import com.example.repository.BrandEntityRepository;
 import com.example.repository.CarEntityRepository;
@@ -23,8 +24,8 @@ public class CarServiceImpl implements CarService {
     @Override
     public void save(CarDTO carDTO) {
         CarEntity carEntity = carMapper.fromCarDTOToCarEntity(carDTO);
-        BrandEntity brandEntity =
-                brandEntityRepository.findByName(carDTO.brand()).orElse(new BrandEntity(carDTO.brand()));
+        BrandEntity brandEntity = brandEntityRepository.findByName(carDTO.brand())
+                .orElse(new BrandEntity(carDTO.brand()));
         carEntity.setBrand(brandEntity);
 
         carEntityRepository.save(carEntity);
@@ -32,16 +33,17 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarDTO> findAll() {
-        return null;
+        return carEntityRepository.findAll().stream().map(carMapper::fromCarEntityToCarDTO).toList();
     }
 
     @Override
     public CarDTO findById(Long id) {
-        return null;
+        return carMapper.fromCarEntityToCarDTO(carEntityRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Car not found" + id)));
     }
 
     @Override
     public void delete(Long id) {
-
+        carEntityRepository.deleteById(id);
     }
 }
