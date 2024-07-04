@@ -39,7 +39,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public CarDTO findById(Long id) {
         return carMapper.fromCarEntityToCarDTO(carEntityRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Car not found" + id)));
+                .orElseThrow(() -> new NotFoundException("Car not found " + id)));
     }
 
     @Override
