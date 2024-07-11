@@ -5,13 +5,12 @@ import CarForm from "./CarForm";
 import DeleteCar from "./DeleteCar";
 import EditCar from "./EditCar";
 
-const TABLE_HEAD = ["Brand", "Model", "Year"];
+const TABLE_HEAD = ["Brand", "Model", "Year", "Edit", "Delete"];
 
 function Car() {
   const [cars, setCars] = useState();
 
   const getCars = async () => {
-    console.log(SERVER_URL);
     const response = await fetch(SERVER_URL + "/car", {
       method: "GET",
       redirect: "follow",
@@ -23,7 +22,6 @@ function Car() {
     }
     const data = await response.json();
     setCars(data);
-    console.log("CARS: ", cars);
   };
 
   function handleClick() {
